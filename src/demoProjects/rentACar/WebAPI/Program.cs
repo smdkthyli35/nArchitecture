@@ -1,3 +1,5 @@
+using Application;
+using Core.CrossCuttingConcerns.Exceptions;
 using Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddPersistenceServices(builder.Configuration);
+builder.Services.AddApplicationServices();
 
 builder.Services.AddSwaggerGen();
 
@@ -20,6 +23,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+if (app.Environment.IsProduction())
+    app.ConfigureCustomExceptionMiddleware();
 
 app.UseAuthorization();
 

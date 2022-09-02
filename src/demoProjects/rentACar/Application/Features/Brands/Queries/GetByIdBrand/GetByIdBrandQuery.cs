@@ -6,10 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Features.Brands.Commands.CreateBrand
+namespace Application.Features.Brands.Queries.GetByIdBrand
 {
-    public class CreateBrandCommand : IRequest<CreatedBrandDto>
+    public class GetByIdBrandQuery : IRequest<BrandGetByIdDto>
     {
-        public string Name { get; set; }
+        public int Id { get; set; }
     }
 }

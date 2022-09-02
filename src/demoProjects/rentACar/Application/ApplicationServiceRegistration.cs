@@ -1,12 +1,9 @@
 ﻿using Application.Features.Brands.Rules;
+using Core.Application.Pipelines.Validation;
+using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application
 {
@@ -17,7 +14,9 @@ namespace Application
             Assembly assembly = Assembly.GetExecutingAssembly();
             services.AddMediatR(assembly);
             services.AddAutoMapper(assembly);
+            services.AddValidatorsFromAssembly(assembly);
             services.AddScoped<BrandBusinessRules>();
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
             return services;
         }
     }

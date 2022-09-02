@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Application.Features.Brands.Commands.CreateBrand
 {
-    public class CreateBrandCommandHandler : IRequestHandler<CreateBrandCommand, CreateBrandDto>
+    public class CreateBrandCommandHandler : IRequestHandler<CreateBrandCommand, CreatedBrandDto>
     {
         private readonly IBrandRepository _brandRepository;
         private readonly IMapper _mapper;
@@ -25,13 +25,13 @@ namespace Application.Features.Brands.Commands.CreateBrand
             _brandBusinessRules = brandBusinessRules;
         }
 
-        public async Task<CreateBrandDto> Handle(CreateBrandCommand request, CancellationToken cancellationToken)
+        public async Task<CreatedBrandDto> Handle(CreateBrandCommand request, CancellationToken cancellationToken)
         {
             await _brandBusinessRules.BrandNameCanNotBeDuplicatedWhenInsert(request.Name);
 
             Brand mappedBrand = _mapper.Map<Brand>(request);
             Brand createdBrand = await _brandRepository.AddAsync(mappedBrand);
-            CreateBrandDto createdBrandDto = _mapper.Map<CreateBrandDto>(createdBrand);
+            CreatedBrandDto createdBrandDto = _mapper.Map<CreatedBrandDto>(createdBrand);
             return createdBrandDto;
         }
     }
